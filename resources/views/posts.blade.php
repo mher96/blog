@@ -14,14 +14,14 @@
     <div class="col-sm-9">
 		@foreach (Auth::user()->categories as $category)
 			@foreach ($category->posts as $post)
-				@if($post->title)
+				
 				<h4><small>{{$category->name}} Posts</small></h4>
 				<hr>
-				@endif
+				
 				<h2>{{$post->title}}</h2>
-				<h5><span class="glyphicon glyphicon-time"></span> Your Post, Sep 27, 2015.</h5>
+				<h5><span class="glyphicon glyphicon-time"></span> Your Post, {{$post->created_at}}.</h5>
 				<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-				<p>{{$post->desc}}</p>
+				<p>{{substr($post->desc, 0, 300)}} <a style="color: blue;font-size: 18px">More...</a></p>
 		      <br><br>
 			@endforeach
 		@endforeach

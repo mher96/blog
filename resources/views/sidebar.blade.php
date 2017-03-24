@@ -23,7 +23,7 @@
         </li>
         <li><a href="#section2">My Categories</a></li>
         <li><a href="#section2">All Posts</a></li>
-        <li><a href="#section2">Add Post</a></li>
+        <li><a href="{{url('home/create')}}">Add Post</a></li>
       </ul><br>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search Blog..">
