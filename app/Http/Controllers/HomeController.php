@@ -54,14 +54,7 @@ class HomeController extends Controller
      */
     public function store(Request $request, Category $category)
     {
-        // dump(Auth::user());
-        // echo "</br>";
-        // dump(Auth::user()->categories);
-        // echo "</br>";
-        // dump(Auth::user()->categories());
-        // echo "</br>";
-        // dump(Auth::user()->id);dd()
-         // dd($request->all());
+      
         $new_ar = array_slice($request->all(), 1, 4); 
         $category = $category->where('id',$request->get('category_id'))->first();
 
@@ -73,10 +66,7 @@ class HomeController extends Controller
             // echo "xeloq mna";
             return redirect()->back()->with('error', 'aber mi bzbza');
         }
-        // dump(Auth::user()->categories);
-        // dump(Auth::user()->categories());
-       
-        // echo 'this is store method';
+        
     }
 
     /**
@@ -85,9 +75,10 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($id, Post $post)
     {
-        //
+        $post = $post->where('id',$id)->first();
+        return view('this_post')->with('post', $post);        
     }
 
     /**

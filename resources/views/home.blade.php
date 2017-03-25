@@ -4,7 +4,7 @@
   @include('sidebar')
 @endsection
 @section('content')
-  @include('posts')
+  @include('my_posts')
 @endsection
 
 

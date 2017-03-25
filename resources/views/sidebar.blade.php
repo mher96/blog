@@ -4,7 +4,7 @@
       <h4>John's Blog</h4>
       <ul class="nav nav-pills nav-stacked">
         <li class="active">
-          <a href="">My Posts</a>
+          <a href="{{url('home')}}">My Posts</a>
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Categories
@@ -12,7 +12,7 @@
           <ul style="width: 300px;" class="dropdown-menu">
             @foreach (Auth::user()->categories as $category)
               <li >
-                <a style="float: left;width: 220px;" href="colection{{$category->id}}">{{$category->name}} 
+                <a style="float: left;width: 220px;" href="">{{$category->name}} 
                   
                 </a>
                 <span style="float: right; margin-right: 10px" class="glyphicon glyphicon-trash"></span>
@@ -21,7 +21,6 @@
             @endforeach
           </ul>
         </li>
-        <li><a href="#section2">My Categories</a></li>
         <li><a href="#section2">All Posts</a></li>
         <li><a href="{{url('home/create')}}">Add Post</a></li>
       </ul><br>

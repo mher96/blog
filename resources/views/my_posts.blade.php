@@ -20,8 +20,8 @@
 				
 				<h2>{{$post->title}}</h2>
 				<h5><span class="glyphicon glyphicon-time"></span> Your Post, {{$post->created_at}}.</h5>
-				<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-				<p>{{substr($post->desc, 0, 300)}} <a style="color: blue;font-size: 18px">More...</a></p>
+				<!-- <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br> -->
+				<p>{{substr($post->desc, 0, 300)}} <a href="{{url('home/'.$post->id)}}" style="color: blue;font-size: 18px">More...</a></p>
 		      <br><br>
 			@endforeach
 		@endforeach
