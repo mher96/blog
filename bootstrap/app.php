@@ -41,6 +41,7 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
@@ -51,5 +52,15 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+
+$app->singleton(
+	'App\Contracts\SecurityServiceInterface',
+	'App\Services\SecurityService'
+	);
+$app->singleton(
+	'App\Contracts\PostServiceInterface',
+	'App\Services\PostService'
+	);
+
 
 return $app;

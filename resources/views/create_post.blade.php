@@ -4,6 +4,7 @@
   @include('sidebar')
 @endsection
 @section('content')
+        <div class="col-sm-9">
             @if (session('success'))
                 <div class="alert alert-success">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -17,7 +18,6 @@
                     {{session('error') }}
                 </div>
             @endif
-        <div class="col-sm-9">
            
         	{{ Form::open(array('url' => 'home', 'method' => 'post','class' => 'post_form')) }}
 

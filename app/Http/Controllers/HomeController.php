@@ -7,7 +7,8 @@ use App\Category;
 use App\Post;
 use App\User;
 use Auth;
-
+use App\Contracts\SecurityServiceInterface;
+use App\Contracts\PostServiceInterface;
 
 class HomeController extends Controller
 {
@@ -52,20 +53,19 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request, Category $category)
+    public function store(Request $request, SecurityServiceInterface $security,PostServiceInterface $post)
     {
-      
+        $cat_id = $request->get('category_id');
         $new_ar = array_slice($request->all(), 1, 4); 
-        $category = $category->where('id',$request->get('category_id'))->first();
-
-        if($category->user_id == Auth::id()){
-            Post::insert($new_ar);
+        // dd($new_ar);
+        if ($security->categoryYours($cat_id)) {
+            $post->addPost($new_ar);
             return redirect()->back()->with('success', 'all ok');
         }
         else{
-            // echo "xeloq mna";
-            return redirect()->back()->with('error', 'aber mi bzbza');
+            return redirect()->back()->with('error', 'you can`t work with another`s category');
         }
+       
         
     }
 
@@ -75,9 +75,9 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, Post $post)
+    public function show($id, PostServiceInterface $post)
     {
-        $post = $post->where('id',$id)->first();
+        $post = $post->showPost($id);
         return view('this_post')->with('post', $post);        
     }
 
@@ -100,27 +100,24 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Post $post, Request $request, $id)
+    public function update(SecurityServiceInterface $security, PostServiceInterface $post, Request $request, $id)
     {
-        echo "tis is controller for update</br>";
-        echo $id;
-        dump($post::find($id)->category->user->id);
-        dump(Auth::user()->id);
+        
         $params = $request->all();
-        if ($post::find($id)->category->user->id == Auth::user()->id) {
-            if (Auth::user()->id == Category::find($params->category_id)->id) {
-                echo "category ok";
+        $options = array_slice($params, 2);
+    
+        if ($security->postYours($id)) {
+            if($security->categoryYours($params['category_id'])){
+                $post->updatePost($id, $options);
+                return redirect()->back()->with('success', 'Post Updated');
             }
             else{
-                echo "category not found in your categories";
+                return redirect()->back()->with('error', 'you can`t work with another`s category');
             }
         }
         else{
-            echo "xeloq";
+            return redirect()->back()->with('error', 'Please Don`t try again');
         }
-        die();
-        $post =$post::find($id)->category->user->id;
-        dd($post);
 
 
     }
@@ -131,9 +128,15 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(SecurityServiceInterface $security, PostServiceInterface $post, $id)
     {
-        echo "here poste be deleted";
+        if ($security->postYours($id)) {
+            $post->deletePost($id);
+            return redirect('/home');
+        }
+        else{
+            return redirect()->back()->with('error', 'Please Don`t try again');
+        }
     }
 
 
