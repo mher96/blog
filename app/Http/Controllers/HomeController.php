@@ -89,7 +89,9 @@ class HomeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        // dd($post);
+        return view('edit_post')->with('post', $post);
     }
 
     /**
@@ -98,9 +100,29 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Post $post, Request $request, $id)
     {
-        //
+        echo "tis is controller for update</br>";
+        echo $id;
+        dump($post::find($id)->category->user->id);
+        dump(Auth::user()->id);
+        $params = $request->all();
+        if ($post::find($id)->category->user->id == Auth::user()->id) {
+            if (Auth::user()->id == Category::find($params->category_id)->id) {
+                echo "category ok";
+            }
+            else{
+                echo "category not found in your categories";
+            }
+        }
+        else{
+            echo "xeloq";
+        }
+        die();
+        $post =$post::find($id)->category->user->id;
+        dd($post);
+
+
     }
 
     /**
@@ -111,7 +133,7 @@ class HomeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo "here poste be deleted";
     }
 
 

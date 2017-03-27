@@ -10,11 +10,15 @@
 				<hr>
 				
 				<h2>{{$post->title}}</h2>
-				<h5><span class="glyphicon glyphicon-time"></span>{{$post->category->name}}</h5>
-				<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-				<div class="ed_del">
-					<button type="button" class="btn btn-primary">Primary</button>
-					<button type="button" class="btn btn-danger">Danger</button>
+				<h5><span class="glyphicon glyphicon-time"></span>{{$post->updated_at}}</h5>
+				<div style="margin-bottom: 20px;overflow: hidden; " class="ed_del">
+					{{Form::open(['class' => 'left', 'url' => url('home/'.$post->id.'/edit'), 'method' => 'get'])}}
+						{{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
+					{{Form::close()}}
+					{{Form::open(['class' => 'left', 'url' => url('home/'.$post->id), 'method' => 'delete'])}}
+						{{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+					{{Form::close()}}
+					
 				</div>
 				<p>{{$post->desc}}</p>
 		      <br><br>

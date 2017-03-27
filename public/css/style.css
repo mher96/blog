@@ -22,3 +22,9 @@
       }
       .row.content {height: auto;} 
     }
+    .left{
+      float: left;
+    }
+    .close{
+      text-align: center;
+    }
