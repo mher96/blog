@@ -1,7 +1,5 @@
 <div class="container">
-  <h2>Modal Example</h2>
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -14,7 +12,11 @@
           <h4 class="modal-title">Modal Header</h4>
         </div>
         <div class="modal-body">
-          <p>Some text in the modal.</p>
+          {{Form::open(['url' => url('category'), 'method' => 'put', 'class' => 'form_modal'])}}
+            {{ Form::label('name', 'Category Name') }}
+            {{ Form::text('name', 'Your cat name', array('class' => 'form-control mod')) }}
+            {{ Form::submit('Edit!', array('class' => 'btn btn-primary')) }}
+          {{ Form::close() }}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -42,11 +44,9 @@
           <ul style="width: 300px;" class="dropdown-menu">
             @foreach (Auth::user()->categories as $category)
               <li >
-                <a style="float: left;width: 220px;" href="">{{$category->name}} 
-                  
-                </a>
-                <span style="float: right; margin-right: 10px" class="glyphicon glyphicon-trash"></span>
-                  <span style="float: right; margin-right: 10px;" class="glyphicon glyphicon-pencil"></span>
+                <a style="float: left;width: 220px;" href="">{{$category->name}} </a>
+                <span dtat-id="{{$category->id}}" style="float: right; margin-right: 10px" class="glyphicon glyphicon-trash del_cat"></span>
+                  <span data-id="{{$category->id}}" data-toggle="modal" data-target="#myModal" style="float: right; margin-right: 10px;" class="glyphicon glyphicon-pencil edit_cat"></span>
               </li>
             @endforeach
           </ul>

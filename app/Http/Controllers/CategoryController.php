@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contracts\SecurityServiceInterface;
+use App\Contracts\CategoryServiceInterface;
 
 class CategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        
+        
+        
+    }
     /**
      * Display a listing of the resource.
      *
@@ -66,9 +76,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SecurityServiceInterface $security, CategoryServiceInterface $category, Request $request, $id)
     {
-        //
+
+        $options = $request->all();
+        $options = array_slice($options, -1);
+        if ($security->categoryYours($id)){
+            $category->updateCategory($id,$options);
+            return redirect()->back();
+        }
+        else{
+            echo "xeloq";
+        }
+
     }
 
     /**

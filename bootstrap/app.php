@@ -61,6 +61,10 @@ $app->singleton(
 	'App\Contracts\PostServiceInterface',
 	'App\Services\PostService'
 	);
+$app->singleton(
+    'App\Contracts\CategoryServiceInterface',
+    'App\Services\CategoryService'
+    );
 
 
 return $app;
