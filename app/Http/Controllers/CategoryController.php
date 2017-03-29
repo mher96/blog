@@ -42,9 +42,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CategoryServiceInterface $category)
     {
-        //
+        $options = $request->all();
+        $options = array_slice($options, 1); 
+        $category->addCategory($options);
+        return redirect()->back();
+        // dd($options);
+        // echo 'this is method for add category';
     }
 
     /**

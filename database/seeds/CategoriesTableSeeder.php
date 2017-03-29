@@ -66,7 +66,13 @@ class CategoriesTableSeeder extends Seeder
     			'user_id' => rand(1,10),
     			'created_at' => $timestamp,
     			'updated_at' => $timestamp,
-			]
+			],
+            [
+                'name' => str_random(10),
+                'user_id' => rand(1,10),
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+            ]
         ];
         DB::table('categories')->insert($categories);
     }

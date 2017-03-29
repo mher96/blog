@@ -12,10 +12,18 @@ $(document).ready(function() {
 		$('.form_modal').attr('action', action+'/'+id);
 	})
 
-	$('.del_cat').click(function(){
-		// $('.form_modal').
-		var input = $('.form_modal').children("input[name='_method']");
-		input.val('DELETE');
-		console.log(input);
+	// $('.del_cat').click(function(){
+	// 	// $('.form_modal').
+	// 	var input = $('.form_modal').children("input[name='_method']");
+	// 	input.val('DELETE');
+	// 	console.log(input);
+	// })
+
+	$('.add_post').click(function(){
+		test = $('.form_modal').children('[name="_method"]');
+		$('.form_modal').children('[name="name"]').val('');
+		$('.form_modal').children('[type="submit"]').val('Add')
+		test.val('');
+		console.log(test);
 	})
 })
