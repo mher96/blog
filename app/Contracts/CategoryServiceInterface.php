@@ -13,7 +13,7 @@ interface CategoryServiceInterface
 |
 */
 
-	// public function addCategory($options);
+	public function addCategory($options);
 
 /*
 |--------------------------------------------------------------------------
@@ -31,16 +31,8 @@ interface CategoryServiceInterface
 | Find post with this id and delete it
 |
 */
-	// public function deleteCategory($id);
+	public function deleteCategory($id);
 
-/*
-|--------------------------------------------------------------------------
-| Method showCategory();
-|--------------------------------------------------------------------------
-| Find post and sho it.
-|
-*/
 
-	// public function showCategory($id);
 
 }

@@ -24,9 +24,13 @@ use App\Category;
 		public function addCategory($options){
 
 			$options['user_id'] = Auth::user()->id;
-			dd($options);
+			// dd($options);
 			$this->category->create($options);
 
+		}
+
+		public function deleteCategory($id){
+			$this->category->find($id)->delete();
 		}
 
 	}

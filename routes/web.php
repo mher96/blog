@@ -18,5 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index');
+Route::get('/home/all', 'HomeController@all');
 Route::resource('home', 'HomeController');
 Route::resource('category', 'CategoryController');

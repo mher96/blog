@@ -28,3 +28,6 @@
     .close{
       text-align: center;
     }
+    .form_del_catl{
+      display: none;
+    }

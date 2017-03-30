@@ -57,7 +57,6 @@ class HomeController extends Controller
     {
         $cat_id = $request->get('category_id');
         $new_ar = array_slice($request->all(), 1, 4); 
-        // dd($new_ar);
         if ($security->categoryYours($cat_id)) {
             $post->addPost($new_ar);
             return redirect()->back()->with('success', 'all ok');
@@ -90,7 +89,6 @@ class HomeController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        // dd($post);
         return view('edit_post')->with('post', $post);
     }
 
@@ -137,6 +135,14 @@ class HomeController extends Controller
         else{
             return redirect()->back()->with('error', 'Please Don`t try again');
         }
+    }
+
+
+    public function all(PostServiceInterface $post){
+
+        $all = $post->showAllPost();
+        return view('all_posts')->with('posts',$all);
+
     }
 
 

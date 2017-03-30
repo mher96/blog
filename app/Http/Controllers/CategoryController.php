@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contracts\SecurityServiceInterface;
 use App\Contracts\CategoryServiceInterface;
+use App\Contracts\PostServiceInterface;
 
 class CategoryController extends Controller
 {
@@ -48,8 +49,7 @@ class CategoryController extends Controller
         $options = array_slice($options, 1); 
         $category->addCategory($options);
         return redirect()->back();
-        // dd($options);
-        // echo 'this is method for add category';
+        
     }
 
     /**
@@ -58,9 +58,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(PostServiceInterface $post, $id)
     {
-        //
+        
+        $posts = $post->showByCatPost($id);
+        return view('cat_posts')->with('posts',$posts);
     }
 
     /**
@@ -102,8 +104,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(SecurityServiceInterface $security, CategoryServiceInterface $category, $id)
     {
-        //
+        if ($security->categoryYours($id)){
+            $category->deleteCategory($id);
+            return redirect()->back();
+        }
+        else{
+            return redirect()->back()->with('error', 'dont do this');
+        }
+        echo $id;
+        echo "tihos is method for dedlete";
     }
 }

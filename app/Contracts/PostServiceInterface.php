@@ -44,6 +44,26 @@ interface PostServiceInterface {
 
 	public function showPost($id);
 
+/*
+|--------------------------------------------------------------------------
+| Method showAllPost();
+|--------------------------------------------------------------------------
+| return all posts.
+|
+*/
+
+	public function showAllPost();
+
+
+	/*
+|--------------------------------------------------------------------------
+| Method showByCatPost();
+|--------------------------------------------------------------------------
+| return all posts whete cat id is $id.
+|
+*/
+
+	public function showByCatPost($id);
 }
 
 

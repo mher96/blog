@@ -11,6 +11,7 @@
 				
 				<h2>{{$post->title}}</h2>
 				<h5><span class="glyphicon glyphicon-time"></span>{{$post->updated_at}}</h5>
+				@if($post->category->user->id == Auth::user()->id)
 				<div style="margin-bottom: 20px;overflow: hidden; " class="ed_del">
 					{{Form::open(['class' => 'left', 'url' => url('home/'.$post->id.'/edit'), 'method' => 'get'])}}
 						{{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
@@ -20,6 +21,7 @@
 					{{Form::close()}}
 					
 				</div>
+				@endif
 				<p>{{$post->desc}}</p>
 		      <br><br>
     </div>

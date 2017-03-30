@@ -19,11 +19,21 @@ $(document).ready(function() {
 	// 	console.log(input);
 	// })
 
-	$('.add_post').click(function(){
-		test = $('.form_modal').children('[name="_method"]');
-		$('.form_modal').children('[name="name"]').val('');
-		$('.form_modal').children('[type="submit"]').val('Add')
-		test.val('');
-		console.log(test);
+	// $('.add_post').click(function(){
+	// 	test = $('.form_modal').children('[name="_method"]');
+	// 	$('.form_modal').children('[name="name"]').val('');
+	// 	$('.form_modal').children('[type="submit"]').val('Add')
+	// 	test.remove();
+	// 	console.log(test);
+	// })
+	$('.del_cat_i').click(function(){
+		var id = $(this).attr('data-id');
+		var action = $('.form_del_catl').attr('action');
+		console.log(action);
+		console.log(id);
+		// return false;
+		$('.form_del_catl').attr('action', action+'/'+id);
+		$('.del_cat').trigger('click');
+		alert('ok')
 	})
 })
