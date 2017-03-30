@@ -53,10 +53,7 @@ $app->singleton(
 |
 */
 
-$app->singleton(
-	'App\Contracts\SecurityServiceInterface',
-	'App\Services\SecurityService'
-	);
+
 $app->singleton(
 	'App\Contracts\PostServiceInterface',
 	'App\Services\PostService'
