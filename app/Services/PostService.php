@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Contracts\PostServiceInterface;
 use App\Post;
+use Auth;
 
 class PostService implements PostServiceInterface{
 
@@ -38,6 +39,20 @@ class PostService implements PostServiceInterface{
 
 	public function showByCatPost($id){
 		return $this->post->where('category_id', $id)->paginate(5);	
+	}
+
+	public function postYours($post_id){
+
+		$post = $this->post->find($post_id);
+
+		// dump($post->category->user_id);
+		if ($post->category->user_id == Auth::user()->id) {
+			return true;
+		}
+		else{
+			return false;
+		}
+
 	}
 
 

@@ -64,8 +64,17 @@ interface PostServiceInterface {
 */
 
 	public function showByCatPost($id);
+
+/*
+|--------------------------------------------------------------------------
+| Method postYours();
+|--------------------------------------------------------------------------
+| return true when post created this user
+| return false when client trying work with another`s post
+|
+*/
+
+	public function postYours($post_id);
+
+
 }
-
-
-
-?>

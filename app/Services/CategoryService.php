@@ -33,4 +33,16 @@ use App\Category;
 			$this->category->find($id)->delete();
 		}
 
+		public function categoryYours($category_id){
+
+		$this_category = $this->category->find($category_id);
+		if (Auth::user()->id == $this_category->user_id) {
+			return true;
+		}
+		else{
+			return false;
+		}
+
+	}
+
 	}

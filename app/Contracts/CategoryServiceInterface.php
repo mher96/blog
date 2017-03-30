@@ -33,6 +33,17 @@ interface CategoryServiceInterface
 */
 	public function deleteCategory($id);
 
+/*
+|--------------------------------------------------------------------------
+| Method categoryYours();
+|--------------------------------------------------------------------------
+| return true when category created this user
+| return false when client trying work with another`s category
+|
+*/
+
+	public function categoryYours($category_id); 
+
 
 
 }

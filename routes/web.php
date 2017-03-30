@@ -18,6 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index');
-Route::get('/home/all', 'HomeController@all');
-Route::resource('home', 'HomeController');
+Route::get('/home/all', 'PostController@all');
+Route::resource('home', 'PostController');
 Route::resource('category', 'CategoryController');

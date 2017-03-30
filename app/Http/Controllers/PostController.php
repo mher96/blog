@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 // cat[0]->artrip()
 use Illuminate\Http\Request;
-use App\Category;
-use App\Post;
-use App\User;
 use Auth;
-use App\Contracts\SecurityServiceInterface;
+use App\Contracts\CategoryServiceInterface;
 use App\Contracts\PostServiceInterface;
 
-class HomeController extends Controller
+class PostController extends Controller
 {
     
     /**
@@ -53,11 +50,11 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request, SecurityServiceInterface $security,PostServiceInterface $post)
+    public function store(Request $request, CategoryServiceInterface $category,PostServiceInterface $post)
     {
         $cat_id = $request->get('category_id');
         $new_ar = array_slice($request->all(), 1, 4); 
-        if ($security->categoryYours($cat_id)) {
+        if ($category->categoryYours($cat_id)) {
             $post->addPost($new_ar);
             return redirect()->back()->with('success', 'all ok');
         }
@@ -74,9 +71,9 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, PostServiceInterface $post)
+    public function show($id, PostServiceInterface $posts)
     {
-        $post = $post->showPost($id);
+        $post = $posts->showPost($id);
         return view('this_post')->with('post', $post);        
     }
 
@@ -86,9 +83,9 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, PostServiceInterface $posts)
     {
-        $post = Post::find($id);
+        $post = $posts->showPost($id);
         return view('edit_post')->with('post', $post);
     }
 
@@ -98,14 +95,14 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(SecurityServiceInterface $security, PostServiceInterface $post, Request $request, $id)
+    public function update(CategoryServiceInterface $category, PostServiceInterface $post, Request $request, $id)
     {
         
         $params = $request->all();
         $options = array_slice($params, 2);
     
-        if ($security->postYours($id)) {
-            if($security->categoryYours($params['category_id'])){
+        if ($post->postYours($id)) {
+            if($category->categoryYours($params['category_id'])){
                 $post->updatePost($id, $options);
                 return redirect()->back()->with('success', 'Post Updated');
             }
@@ -126,9 +123,9 @@ class HomeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy(SecurityServiceInterface $security, PostServiceInterface $post, $id)
+    public function destroy( PostServiceInterface $post, $id)
     {
-        if ($security->postYours($id)) {
+        if ($post->postYours($id)) {
             $post->deletePost($id);
             return redirect('/home');
         }
@@ -138,8 +135,7 @@ class HomeController extends Controller
     }
 
 
-    public function all(PostServiceInterface $post){
-
+    public function all(PostServiceInterface $post) {
         $all = $post->showAllPost();
         return view('all_posts')->with('posts',$all);
 

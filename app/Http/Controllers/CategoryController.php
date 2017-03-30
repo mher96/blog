@@ -83,12 +83,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SecurityServiceInterface $security, CategoryServiceInterface $category, Request $request, $id)
+    public function update(CategoryServiceInterface $category, Request $request, $id)
     {
 
         $options = $request->all();
         $options = array_slice($options, -1);
-        if ($security->categoryYours($id)){
+        if ($category->categoryYours($id)){
             $category->updateCategory($id,$options);
             return redirect()->back();
         }
@@ -104,9 +104,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SecurityServiceInterface $security, CategoryServiceInterface $category, $id)
+    public function destroy(CategoryServiceInterface $category, $id)
     {
-        if ($security->categoryYours($id)){
+        if ($category->categoryYours($id)){
             $category->deleteCategory($id);
             return redirect()->back();
         }
