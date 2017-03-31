@@ -81,8 +81,7 @@
            </div>
        </nav>      
    </div>
-    @yield('sidebar')
-    @yield('content')
+  @yield('content')
 
     <!-- Scripts -->
     

@@ -38,11 +38,11 @@ interface PostServiceInterface {
 |--------------------------------------------------------------------------
 | Method showPost();
 |--------------------------------------------------------------------------
-| Find post and sho it.
+| Find post and get it.
 |
 */
 
-	public function showPost($id);
+	public function getPost($id);
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ interface PostServiceInterface {
 |
 */
 
-	public function showAllPost();
+	public function getAllPost();
 
 
 	/*
@@ -63,7 +63,7 @@ interface PostServiceInterface {
 |
 */
 
-	public function showByCatPost($id);
+	public function getPostByCat($id);
 
 /*
 |--------------------------------------------------------------------------

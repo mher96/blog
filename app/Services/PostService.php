@@ -12,32 +12,32 @@ class PostService implements PostServiceInterface{
 		$this->post = $post;
 	}
 
-	public function showPost($id){
+	public function getPost($id){
 		return $this->post->where('id',$id)->first();
 	}
 
 	public function addPost($options){
 
-		$this->post->create($options);
+		return $this->post->create($options);
 
 	}
 
 	public function updatePost($id,$options){
 
-		$this->post->find($id)->update($options);
+		return $this->post->find($id)->update($options);
 
 	}
 
 	public function deletePost($id){
-		$this->post->find($id)->delete();		
+		return $this->post->find($id)->delete();		
 	}
 
 
-	public function showAllPost(){
+	public function getAllPost(){
 		return $this->post->paginate(5);
 	}
 
-	public function showByCatPost($id){
+	public function getPostByCat($id){
 		return $this->post->where('category_id', $id)->paginate(5);	
 	}
 
@@ -45,7 +45,6 @@ class PostService implements PostServiceInterface{
 
 		$post = $this->post->find($post_id);
 
-		// dump($post->category->user_id);
 		if ($post->category->user_id == Auth::user()->id) {
 			return true;
 		}

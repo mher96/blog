@@ -17,20 +17,19 @@ use App\Category;
 
 		public function updateCategory($id,$options){
 
-			$this->category->find($id)->update($options);
+			return $this->category->find($id)->update($options);
 			
 		}
 
 		public function addCategory($options){
 
 			$options['user_id'] = Auth::user()->id;
-			// dd($options);
-			$this->category->create($options);
+			return $this->category->create($options);
 
 		}
 
 		public function deleteCategory($id){
-			$this->category->find($id)->delete();
+			return $this->category->find($id)->delete();
 		}
 
 		public function categoryYours($category_id){

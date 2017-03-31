@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-// cat[0]->artrip()
+
+
 use Illuminate\Http\Request;
+use App\Http\Requests\PostFormRequest;
 use Auth;
 use App\Contracts\CategoryServiceInterface;
 use App\Contracts\PostServiceInterface;
@@ -15,51 +17,66 @@ class PostController extends Controller
      *
      * @return void
      */
-    public $cat;
+
+
     public function __construct()
     {
-        $this->middleware('auth');
-        
-        
+
+        $this->middleware('auth'); 
         
     }
+
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
+
+
     public function index()
     {
-        
-        return view('home');
+        return view('post.my_posts');
     }
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return Response
      */
+
+
     public function create()
     {
-        return view('create_post');
+        return view('post.create_post');
     }
+
 
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store(Request $request, CategoryServiceInterface $category,PostServiceInterface $post)
+
+
+    public function store(PostFormRequest $request, CategoryServiceInterface $cat_sevice,PostServiceInterface $post_sevice)
     {
-        $cat_id = $request->get('category_id');
-        $new_ar = array_slice($request->all(), 1, 4); 
-        if ($category->categoryYours($cat_id)) {
-            $post->addPost($new_ar);
-            return redirect()->back()->with('success', 'all ok');
+        $post_param = $request->only('title','desc','category_id');
+
+        if ($cat_sevice->categoryYours($post_param['category_id'])) {
+
+            if($post_sevice->addPost($post_param)){
+                return redirect()->back()->with('success', 'all ok');    
+            }
+            else{
+                return redirect()->back()->with('error', 'Something went wrong');    
+            }
+            
+
         }
         else{
-            return redirect()->back()->with('error', 'you can`t work with another`s category');
+            return redirect()->back()->with('error', 'You can`t work with another`s category');
         }
        
         
@@ -71,11 +88,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, PostServiceInterface $posts)
+
+
+    public function show($id, PostServiceInterface $post_service)
     {
-        $post = $posts->showPost($id);
-        return view('this_post')->with('post', $post);        
+
+        $post = $post_service->getPost($id);
+        return view('post.this_post')->with('post', $post);   
+
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -83,11 +105,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, PostServiceInterface $posts)
+
+
+    public function edit($id, PostServiceInterface $post_service)
     {
-        $post = $posts->showPost($id);
-        return view('edit_post')->with('post', $post);
+
+        $post = $post_service->getPost($id);
+        return view('post.edit_post')->with('post', $post);
+
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -95,19 +122,29 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(CategoryServiceInterface $category, PostServiceInterface $post, Request $request, $id)
+
+
+    public function update(CategoryServiceInterface $cat_service, PostServiceInterface $post_service, PostFormRequest $request, $id)
     {
         
-        $params = $request->all();
-        $options = array_slice($params, 2);
+        $new_params = $request->only('title','desc','category_id');
     
-        if ($post->postYours($id)) {
-            if($category->categoryYours($params['category_id'])){
-                $post->updatePost($id, $options);
-                return redirect()->back()->with('success', 'Post Updated');
+        if ($post_service->postYours($id)) {
+            if($cat_service->categoryYours($new_params['category_id'])){
+
+                if($post_service->updatePost($id, $new_params)){
+                    return redirect()->back()->with('success', 'Post Updated');    
+                }
+                else{
+                    return redirect()->back()->with('error', 'Something went wrong');
+                }
+                
+
             }
             else{
+
                 return redirect()->back()->with('error', 'you can`t work with another`s category');
+
             }
         }
         else{
@@ -123,11 +160,20 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy( PostServiceInterface $post, $id)
+
+
+    public function destroy( PostServiceInterface $post_service, $id)
     {
-        if ($post->postYours($id)) {
-            $post->deletePost($id);
-            return redirect('/home');
+        if ($post_service->postYours($id)) {
+
+            if($post_service->deletePost($id)){
+                return redirect('/home');    
+            }
+            else{
+                return redirect()->back()->with('error', 'Something went wrong');
+            }
+            
+
         }
         else{
             return redirect()->back()->with('error', 'Please Don`t try again');
@@ -135,9 +181,10 @@ class PostController extends Controller
     }
 
 
-    public function all(PostServiceInterface $post) {
-        $all = $post->showAllPost();
-        return view('all_posts')->with('posts',$all);
+    public function all(PostServiceInterface $post_service) {
+
+        $all = $post_service->getAllPost();
+        return view('post.all_posts')->with('posts',$all);
 
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Contracts\SecurityServiceInterface;
+use App\Http\Requests\CategoryFormRequest;
 use App\Contracts\CategoryServiceInterface;
 use App\Contracts\PostServiceInterface;
 
@@ -15,27 +15,34 @@ class CategoryController extends Controller
         $this->middleware('auth');
         
         
-        
     }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
-        //
+        //Dropdown
     }
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function create()
     {
-        //
+        //Modal
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -43,12 +50,18 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, CategoryServiceInterface $category)
+
+
+    public function store(CategoryFormRequest $request, CategoryServiceInterface $cat_service)
     {
-        $options = $request->all();
-        $options = array_slice($options, 1); 
-        $category->addCategory($options);
-        return redirect()->back();
+        $cat_options = $request->only('name'); 
+        if($cat_service->addCategory($cat_options)){
+            return redirect()->back();    
+        }
+        else{
+            return redirect()->back()->with('error', 'Something went wrong');    
+        }
+        
         
     }
 
@@ -58,12 +71,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(PostServiceInterface $post, $id)
+    public function show(PostServiceInterface $post_service, $id)
     {
         
-        $posts = $post->showByCatPost($id);
-        return view('cat_posts')->with('posts',$posts);
+        $posts = $post_service->getPostByCat($id);
+        return view('post.cat_posts')->with('posts',$posts);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -71,10 +85,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
-        //
+        //Modal
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -83,20 +99,27 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryServiceInterface $category, Request $request, $id)
+
+    public function update(CategoryServiceInterface $cat_service, CategoryFormRequest $request, $id)
     {
 
         $options = $request->all();
         $options = array_slice($options, -1);
-        if ($category->categoryYours($id)){
-            $category->updateCategory($id,$options);
-            return redirect()->back();
+        if ($cat_service->categoryYours($id)){
+            if($cat_service->updateCategory($id,$options)){
+                return redirect()->back();    
+            }
+            else{
+                return redirect()->back()->with('error', 'Something went wrong'); 
+            }
+                           
         }
         else{
-            echo "xeloq";
+            return redirect()->back()->with('error', 'Please don`t try again'); 
         }
 
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -104,16 +127,23 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CategoryServiceInterface $category, $id)
+    public function destroy(CategoryServiceInterface $cat_service, $id)
     {
-        if ($category->categoryYours($id)){
-            $category->deleteCategory($id);
-            return redirect()->back();
+        if ($cat_service->categoryYours($id)){
+
+            if($cat_service->deleteCategory($id)){
+                return redirect()->back();   
+            }
+            else{
+                return redirect()->back()->with('error', 'Something went wrong');
+            }
+
         }
         else{
+
             return redirect()->back()->with('error', 'dont do this');
+
         }
-        echo $id;
-        echo "tihos is method for dedlete";
+
     }
 }
