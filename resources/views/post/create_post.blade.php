@@ -15,13 +15,13 @@
         {{ Form::textarea('desc', 'desc', array('class' => 'form-control')) }}
     </div>
     <div class="form-group">
-            <select name="category_id" class="form-control">
+        <select name="category_id" class="form-control">
         @foreach (Auth::user()->categories as $category)
-                <option value="{{$category->id}}">{{$category->name}}</option>
+            <option value="{{$category->id}}">{{$category->name}}</option>
         @endforeach
-            </select>
-            </div>
-    	{{ Form::submit('Add the Post!', array('class' => 'btn btn-primary')) }}
+        </select>
+    </div>
+    {{ Form::submit('Add the Post!', array('class' => 'btn btn-primary')) }}
         
 	{{ Form::close() }}
             
